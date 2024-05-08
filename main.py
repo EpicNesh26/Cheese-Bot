@@ -29,12 +29,12 @@ async def on_member_join(member):
 # NOTE : The code commented out below is a demonstration of showing a random joke when the member joins the server , but i wont be using it and also you can use any other type of API on this certain event or any other events.
     # import json
     # import requests
-    # jokeurl = "https://joke3.p.rapidapi.com/v1/joke"
+    # jokeurl = "USE YOUR OWN URL FROM RAPIDAPI"
 
     # headers = {
 	# "content-type": "application/json",
-	# "X-RapidAPI-Key": "e1f3fd936bmsh8300f3bda264e44p1dc04bjsn8e840b92a1d9",
-	# "X-RapidAPI-Host": "joke3.p.rapidapi.com"
+	# "X-RapidAPI-Key": "Enter Your API KEY HERE",
+	# "X-RapidAPI-Host": "SAME HERE"
     # }
     # response = requests.request("GET", jokeurl, headers=headers)
 
