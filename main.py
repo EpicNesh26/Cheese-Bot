@@ -48,6 +48,28 @@ async def on_member_leave(member):
     channel = client.get_channel(1215953106718818326)
     await channel.send("Goodbye")
 
-# To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 
+
+# This is for the Voice Channel join or leave.
+@client.command(pass_context = True)
+async def join(ctx):
+    if (ctx.author.voice):
+        channel = ctx.message.author.voice.channel
+        await channel.connect()
+    else: 
+        await ctx.send("You are not in a voice channel, you must be in a voice channel to run this command")
+
+
+@client.command(pass_context = True)
+async def leave(ctx):
+    if (ctx.voice_client):
+        await ctx.guild.voice_client.disconnect()
+        await ctx.send("I Left the voice channel")
+    else:
+        await ctx.send("The bot is not connected to a voice channel")
+
+
+
+
+# To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 client.run('Enter Your Token Here')
