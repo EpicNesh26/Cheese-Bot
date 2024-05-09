@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import FFmpegPCMAudio
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
@@ -55,7 +56,9 @@ async def on_member_leave(member):
 async def join(ctx):
     if (ctx.author.voice):
         channel = ctx.message.author.voice.channel
-        await channel.connect()
+        voice = await channel.connect()
+        source = FFmpegPCMAudio('Ariana Grande - Fantasize (Audio).mp3')
+        player = voice.play(source )
     else: 
         await ctx.send("You are not in a voice channel, you must be in a voice channel to run this command")
 
