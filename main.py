@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import FFmpegPCMAudio
+import random
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
@@ -106,8 +107,25 @@ async def stop(ctx):
 @client.command(pass_context = True)
 async def play(ctx):
     voice = ctx.guild.voice_client
-    source = FFmpegPCMAudio('Discord Bot\Ariana Grande - Fantasize (Audio).mp3')
+    source = FFmpegPCMAudio('Discord Bot\Fantasize.mp3')
     player = voice.play(source)
+
+# This shows a random quote from the list , You could use an API too. 
+@client.command(pass_context=True)
+async def quote(ctx):
+    quoteList = ["The most disastrous thing that you can ever learn is your first programming language. - Alan Kay",
+                 "Talk is cheap. Show me the code. - Linus Torvalds",
+                 "Perl – The only language that looks the same before and after RSA encryption. - Keith Bostic",
+                 "If debugging is the process of removing software bugs, then programming must be the process of putting them in. - Edsger Dijkstra",
+                 "Programming is like sex. One mistake and you have to support it for the rest of your life. - Michael Sinz",
+                 "The trouble with programmers is that you can never tell what a programmer is doing until it’s too late. - Seymour Cray",
+                 "Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live. - John Woods",
+                 "Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the universe trying to produce bigger and better idiots. So far, the universe is winning. - Rick Cook",
+                 "You can't have great software without a great team, and most software teams behave like dysfunctional families. - Jim McCarthy",
+                 "Programming isn't about what you know; it's about what you can figure out. - Chris Pine"
+                 ]  # Put your quotes here!
+
+    await ctx.send(str(random.choice(quoteList)))
 
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 client.run('Enter Your Token Here')
