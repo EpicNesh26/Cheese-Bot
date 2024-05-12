@@ -127,5 +127,27 @@ async def quote(ctx):
 
     await ctx.send(str(random.choice(quoteList)))
 
+# This shows how many members are online and how many are offline on discord server.
+
+# Note that "idle" and "dnd" are also considered as online
+@client.command()
+async def stats(ctx):
+    online_members = []
+    offline_members = []
+    for member in ctx.guild.members:
+        if member.status is not discord.Status.offline:
+            online_members.append(member.name)
+        else:
+            offline_members.append(member.name)
+
+    embed = discord.Embed(title=f'"{ctx.guild.name}" Stats', color=0x000)
+    embed.add_field(name="Member Count", value=ctx.guild.member_count)
+    embed.add_field(name="Online", value=f'{len(online_members)} :green_circle:', inline=True)
+    embed.add_field(name="Offline", value =f'{len(offline_members)} :red_circle:', inline = True)
+    await ctx.send(embed=embed)
+
+
+
+
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 client.run('Enter Your Token Here')
