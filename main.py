@@ -57,10 +57,11 @@ async def join(ctx):
     if (ctx.author.voice):
         channel = ctx.message.author.voice.channel
         voice = await channel.connect()
-        source = FFmpegPCMAudio('Ariana Grande - Fantasize (Audio).mp3')
-        player = voice.play(source )
+        await ctx.send("I have joined the voice channel")
+        
     else: 
         await ctx.send("You are not in a voice channel, you must be in a voice channel to run this command")
+        await ctx.send("You are not in vc")
 
 
 @client.command(pass_context = True)
@@ -73,6 +74,40 @@ async def leave(ctx):
 
 
 
+# This is for pause
+@client.command(pass_context = True)
+async def pause(ctx):
+    # What this does is it is calling the discord package and inside is calling the utils of the voice that is playing.
+    voice = discord.utils.get(client.voice_client,guild = ctx.guild)
+    if voice.is_playing():
+        voice.pause()
+    else:
+        await ctx.send("Nothing is playing")
+
+# This is for resume
+@client.command(pass_context = True)
+async def resume(ctx):
+    voice = discord.utils.get(client.voice_client,guild = ctx.guild)
+    if voice.is_paused():
+        voice.resume()
+    else:
+        await ctx.send("No audio is paused.")
+
+
+# This is for stop 
+@client.command(pass_context = True)
+async def stop(ctx):
+    voice = discord.utils.get(client.voice_clients,guild = ctx.guild)
+    voice.stop()
+
+
+
+# This is for play
+@client.command(pass_context = True)
+async def play(ctx):
+    voice = ctx.guild.voice_client
+    source = FFmpegPCMAudio('Discord Bot\Ariana Grande - Fantasize (Audio).mp3')
+    player = voice.play(source)
 
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 client.run('Enter Your Token Here')
