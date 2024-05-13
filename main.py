@@ -147,6 +147,21 @@ async def stats(ctx):
     await ctx.send(embed=embed)
 
 
+# Making it so that the bot detects specific words.
+
+
+# @client.event
+# async def on_message(message):
+#     if message.content == "hi":
+#         await message.delete()
+#         await message.channel.send("Prevent from using that word")
+
+@client.listen('on_message')
+async def on_message(message):
+    if message.content == "Hate":
+        await message.delete()
+        await message.channel.send("Prevent from using that word")
+
 
 
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
