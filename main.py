@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord import FFmpegPCMAudio
 import random
+import requests
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
@@ -156,12 +157,51 @@ async def stats(ctx):
 #         await message.delete()
 #         await message.channel.send("Prevent from using that word")
 
-@client.listen('on_message')
-async def on_message(message):
-    if message.content == "Hate":
-        await message.delete()
-        await message.channel.send("Prevent from using that word")
 
+# This is the code to detect certain words and make the bot auto delete it with a warning, "Will Add and API or .txt file later"
+# @client.listen('on_message')
+# async def on_message(message):
+#     if message.content == "Hate":
+#         await message.delete()
+#         await message.channel.send("Prevent from using that word")
+
+
+
+@client.listen('on_message')
+    # This makes the bot roll a dice whenever you write '?roll' in the chat.
+async def on_message(message):
+    if message.content.startswith('?roll'):
+        sides = 6
+        try:
+            sides = int(message.content.split()[1])
+        except IndexError:
+            pass
+        except ValueError:
+            await message.channel.send("Please provide a valid number of sides for the dice")
+            return
+
+        result = random.randint(1, sides)
+        await message.channel.send(f'You rolled a {result} on a {sides}-sided dice!')
+
+
+    # Gives a random xkcd comic image
+    if message.content.startswith('?xkcd'):
+        r = requests.get(
+            "https://xkcd.com/info.0.json",
+            proxies={'http': '222.255.169.74:8080'},
+            timeout=5
+        )
+
+        data = r.json()
+        comic_num = data['num']
+        comic_img = data['img']
+        comic_alt = data['alt']
+
+        # Construct the comic message
+        comic_message = f"**XKCD Comic #{comic_num}**\n{comic_alt}\n{comic_img}"
+
+        # Send the comic message to the Discord channel
+        await message.channel.send(comic_message)
 
 
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
