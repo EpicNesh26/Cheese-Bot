@@ -305,6 +305,13 @@ async def on_message(message):
 
         await message.channel.send(f'You chose: {user_choice}\nCheese Bot chose: {bot_choice}\nResult: {result}')
 
+    if message.content.startswith('?role'):
+        # Send a message with a cheese emoji reaction
+        role_message = await message.channel.send("React with 🧀 to get the Cheese Lover role!")
+
+        # Add the cheese emoji reaction to the message
+        await role_message.add_reaction('🧀')
+
 
 def determine_winner(user, bot):
     if user == bot:
@@ -314,7 +321,24 @@ def determine_winner(user, bot):
     else:
         return "You lose!"
 
+# Reacting add function to add the cheese role
+@client.event
+async def on_reaction_add(reaction, user):
+    # Check if the reaction is to the role assignment message and from a non-bot user
+    if reaction.message.content == "React with 🧀 to get the Cheese Lover role!" and not user.bot:
+        # Check if the reacted emoji is the cheese emoji
+        if str(reaction.emoji) == '🧀':
+            # Get the server the user reacted in
+            guild = reaction.message.guild
 
+            # Get or create the Cheese Lover role
+            cheese_role = discord.utils.get(guild.roles, name="Cheese Lover")
+            if not cheese_role:
+                cheese_role = await guild.create_role(name="Cheese Lover", color=discord.Color.gold())
+
+            # Assign the Cheese Lover role to the user
+            await user.add_roles(cheese_role)
+            await user.send("You've been granted the Cheese Lover role!")
 
 # This is for kick or ban command.
 @client.command()
