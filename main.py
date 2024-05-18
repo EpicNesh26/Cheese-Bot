@@ -5,9 +5,15 @@ import random
 import requests
 from discord import Member
 from discord.ext.commands import has_permissions, MissingPermissions
+import os
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
+
+client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
+NASA_API_KEY = os.getenv(
+    'NASA_API_KEY', 'Enter Your Nasa Api Key Here')
+# You can get your api key from : https://api.nasa.gov/
 
 @client.event
 async def on_ready():
@@ -365,6 +371,75 @@ async def ban_error(ctx, error):
         await ctx.send("You dont have permission to ban people")
 
 
+@client.command()
+async def apod(ctx):
+    apod_data = get_apod()
+    if apod_data:
+        embed = discord.Embed(
+            title=apod_data['title'], description=apod_data['explanation'], color=discord.Color.blue())
+        embed.set_image(url=apod_data['url'])
+        embed.set_footer(text=f"Date: {apod_data['date']}")
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send("Sorry, I couldn't fetch the Astronomy Picture of the Day.")
+
+
+def get_apod():
+    url = f"https://api.nasa.gov/planetary/apod?api_key={NASA_API_KEY}"
+
+    r = requests.get(
+            url,
+            proxies={'http': '222.255.169.74:8080'},
+            timeout=5
+        )
+
+    if r.status_code == 200:
+        data = r.json()
+        return {
+            'title': data['title'],
+            'explanation': data['explanation'],
+            'url': data['url'],
+            'date': data['date']
+        }
+    else:
+        return None
+
+# A BIG DISCORD BOT INTRO 
+
+@client.command()
+async def cheesebot(ctx):
+    emb = discord.Embed(title="🧀 Cheese Bot Profile 🧀", color=discord.Color.gold())
+    emb.set_thumbnail(url=client.user.avatar.url)
+    
+    emb.add_field(name="Name", value="Cheese Bot", inline=False)
+    emb.add_field(name="Purpose", value="To spread cheesy goodness and fun throughout the server!", inline=False)
+    emb.add_field(name="Features", value=(
+        "🧀 Introduction: `?intro`\n"
+        "🧀 My Socials: `?socials`\n"
+        "🧀 Say Hello: `?hello`\n"
+        "🧀 Stats: `?stats`\n"
+        "🧀 Assign Cheese Role: `?role`\n"
+        "🧀 Cheesy Dice Roll: `?roll`\n"
+        "🧀 Cheese Jokes: `?joke`\n"
+        "🧀 Cheese Facts: `?fact`\n"
+        "🧀 Random Normal Quote: `?quote`\n"
+        "🧀 Xkcd Comic Image: `?xkcd`\n"
+        "🧀 Play Rock Paper Scissors: `?rps`\n"
+        "🧀 Astronomy Picture of the Day: `?apod`\n"
+        "🧀 Join Voice Channel: `?join`\n"
+        "🧀 Leave Voice Channel: `?leave`\n"
+        "🧀 Play a song: `?play`\n"
+        "🧀 Pause a song: `?pause`\n"
+        "🧀 Resume a song: `?resume`\n"
+        "🧀 Stop a song: `?stop`\n"
+
+
+    ), inline=False)
+    emb.add_field(name="Fun Fact", value="Did you know? There are over 1,800 different types of cheese in the world!", inline=False)
+    emb.add_field(name="Developer", value="Nesh", inline=False)
+    emb.set_footer(text=f"Bot Name: {client.user.name}")
+    
+    await ctx.send(embed=emb)
 
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 client.run('Enter Your Token Here')
