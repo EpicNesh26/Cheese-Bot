@@ -167,7 +167,27 @@ async def stats(ctx):
 #         await message.delete()
 #         await message.channel.send("Prevent from using that word")
 
+jokes = [
+    "What do you call cheese that isn't yours? Nacho cheese!",
+    "Why did the cheese cross the road? To get to the other slice!",
+    "What type of cheese is made backward? Edam!",
+    "How do you handle dangerous cheese? Caerphilly.",
+    "What’s a cheese’s favorite music? R’n’Brie.",
+    "What did the cheese say when it looked in the mirror? Halloumi!",
+    "What cheese surrounds a medieval castle? Moat-zarella.",
+    "Why doesn’t cheddar like to party with crackers? Because it always gets grilled!"
+]
 
+facts = [
+    "Cheese is the most stolen food in the world!",
+    "There are over 2,000 varieties of cheese.",
+    "The world's most expensive cheese is made from donkey milk.",
+    "Cheese can be made from the milk of cows, goats, sheep, and even buffalo.",
+    "The largest cheese ever made weighed over 57,000 pounds.",
+    "Ancient Egyptians included cheese in their tomb offerings.",
+    "The holes in Swiss cheese are called 'eyes'.",
+    "Cheese was first made over 4,000 years ago by accident."
+]
 
 @client.listen('on_message')
     # This makes the bot roll a dice whenever you write '?roll' in the chat.
@@ -183,7 +203,7 @@ async def on_message(message):
             return
 
         result = random.randint(1, sides)
-        await message.channel.send(f'You rolled a {result} on a {sides}-sided dice!')
+        await message.channel.send(f'You rolled a cheesy {result} on a {sides}-sided cheese dice!')
 
 
     # Gives a random xkcd comic image
@@ -205,7 +225,60 @@ async def on_message(message):
         # Send the comic message to the Discord channel
         await message.channel.send(comic_message)
 
+    
+    # Embed for socials
+    if message.content.startswith('?socials'):
+            # Create an embed with social media links
+            embed = discord.Embed(
+                title="Follow Me on Social Media!", color=0x1DA1F2)
+            embed.add_field(
+                name="Twitter", value="[Click here](https://twitter.com/soninesh2006)", inline=False)
+            embed.add_field(
+                name="Instagram", value="[Click here](https://instagram.com/soninesh2006)", inline=False)
+            embed.add_field(
+                name="YouTube", value="[Click here](https://www.youtube.com/c/www.youtube.com/@neshsoni7844)", inline=False)
+            embed.add_field(
+                name="Github", value="[Click here](https://www.github.com/EpicNesh26)", inline=False)
 
+            embed.set_footer(text="Thank you for following!")
+
+        # Send the embed to the Discord channel
+            await message.channel.send(embed=embed)
+
+    # Intro
+    if message.content.startswith('?cheese'):
+        # Create the funny introduction text for Cheese Bot
+        intro_text = (
+            "**Hello! I'm Cheese Bot!**\n\n"
+            "🧀 I'm your friendly neighborhood bot made entirely of cheese! 🧀\n\n"
+            "**What I Can Do:**\n"
+            "- Crack cheesy jokes\n"
+            "- Serve up cheesy facts\n"
+            "- Roll cheesy dice\n\n"
+            "**Fun Fact:**\n"
+            "Did you know that cheese is the most stolen food in the world? Now that's a big cheese heist!\n\n"
+            "Stay cheesy, my friends! 🧀"
+        )
+
+        # Send the introduction text to the Discord channel
+        await message.channel.send(intro_text)
+
+    # Cheesy Joke
+    if message.content.startswith('?joke'):
+        # Select a random joke from the list
+        joke = random.choice(jokes)
+        
+        # Send the joke to the Discord channel
+        await message.channel.send(joke)
+
+
+    # Cheesy fact
+    elif message.content.startswith('?fact'):
+        # Select a random fact from the list
+        fact = random.choice(facts)
+        
+        # Send the fact to the Discord channel
+        await message.channel.send(fact)
 
 # This is for kick or ban command.
 @client.command()
