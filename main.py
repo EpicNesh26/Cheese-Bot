@@ -3,6 +3,8 @@ from discord.ext import commands
 from discord import FFmpegPCMAudio
 import random
 import requests
+from discord import Member
+from discord.ext.commands import has_permissions, MissingPermissions
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
@@ -202,6 +204,33 @@ async def on_message(message):
 
         # Send the comic message to the Discord channel
         await message.channel.send(comic_message)
+
+
+
+# This is for kick or ban command.
+@client.command()
+@has_permissions(kick_members = True)
+async def kick(ctx, member:discord.Member,*,reason = None):
+    await member.kick(reason = reason)
+    await ctx.send(f'User {member} has been kicked.')
+
+@kick.error
+async def kick_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("You dont have permission to kick people")
+
+
+@client.command()
+@has_permissions(ban_members = True)
+async def ban(ctx, member:discord.Member,*,reason = None):
+    await member.ban(reason = reason)
+    await ctx.send(f'User {member} has been Banned.')
+
+@kick.error
+async def ban_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("You dont have permission to ban people")
+
 
 
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
