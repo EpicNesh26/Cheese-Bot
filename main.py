@@ -17,7 +17,7 @@ async def on_ready():
 
 @client.command()
 async def hello(ctx):
-    await ctx.send("Hello I am The Auto Bot")
+    await ctx.send("Hello I am The Cheese Bot")
 
 
 
@@ -25,7 +25,17 @@ async def hello(ctx):
 @client.event
 async def on_member_join(member):
     channel = client.get_channel(1215953106718818326)
-    await channel.send("Helloouu")
+    if channel:
+        # Create the welcome message
+        welcome_message = (
+            f"Welcome to the server, {member.mention}! 🧀\n\n"
+            "We're thrilled to have you here! 🎉\n\n"
+            "Make sure to check out the Cheesy Bot and introduce yourself. Have a great time! \n\n"
+            "If you have any other ideas for the Cheese Bot , feel free to share it in the ideas channel."
+        )
+
+        # Send the welcome message to the welcome channel
+        await channel.send(welcome_message)
 
 
 # To add a random joke when a member joins we can use the RapidAPI and the code for that is given below:
@@ -305,7 +315,7 @@ def determine_winner(user, bot):
         return "You lose!"
 
 
-        
+
 # This is for kick or ban command.
 @client.command()
 @has_permissions(kick_members = True)
