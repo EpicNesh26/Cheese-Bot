@@ -280,6 +280,32 @@ async def on_message(message):
         # Send the fact to the Discord channel
         await message.channel.send(fact)
 
+
+    # Rock Paper Scissor game
+    if message.content.startswith('?rps'):
+        user_choice = message.content.split()[1].lower()
+        possible_choices = ['rock', 'paper', 'scissors']
+
+        if user_choice not in possible_choices:
+            await message.channel.send("Please choose either rock, paper, or scissors.")
+            return
+
+        bot_choice = random.choice(possible_choices)
+        result = determine_winner(user_choice, bot_choice)
+
+        await message.channel.send(f'You chose: {user_choice}\nCheese Bot chose: {bot_choice}\nResult: {result}')
+
+
+def determine_winner(user, bot):
+    if user == bot:
+        return "It's a tie!"
+    elif (user == 'rock' and bot == 'scissors') or (user == 'paper' and bot == 'rock') or (user == 'scissors' and bot == 'paper'):
+        return "You win!"
+    else:
+        return "You lose!"
+
+
+        
 # This is for kick or ban command.
 @client.command()
 @has_permissions(kick_members = True)
