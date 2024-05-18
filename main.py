@@ -1,9 +1,10 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord import FFmpegPCMAudio
 import random
 import requests
 from discord import Member
+from datetime import datetime, timedelta
 from discord.ext.commands import has_permissions, MissingPermissions
 import os
 
@@ -432,6 +433,7 @@ async def cheesebot(ctx):
         "🧀 Pause a song: `?pause`\n"
         "🧀 Resume a song: `?resume`\n"
         "🧀 Stop a song: `?stop`\n"
+        "🧀 Daily Challenge: `?dailychallenge`\n"
 
 
     ), inline=False)
@@ -441,5 +443,66 @@ async def cheesebot(ctx):
     
     await ctx.send(embed=emb)
 
+
+challenges = [
+    "Share a photo of something that makes you happy.",
+    "Write a short story or a poem.",
+    "Do 10 push-ups and share your experience.",
+    "Learn a new fact and share it with the server.",
+    "Draw a picture and share it with the community.",
+    "Listen to a new song and share your thoughts.",
+    "Cook a new recipe and share a photo.",
+    "Take a walk and describe what you see.",
+    "Compliment someone in the server.",
+    "Share a motivational quote."
+]
+
+last_challenge_date = None
+# Task to send a daily challenge
+
+
+@tasks.loop(hours=24)
+async def send_daily_challenge():
+    global last_challenge_date
+    current_date = datetime.utcnow().date()
+
+    # Check if a challenge has already been sent today
+    if last_challenge_date == current_date:
+        return
+
+    # Select a random challenge
+    challenge = random.choice(challenges)
+
+    # Specify the channel ID where the challenge should be posted
+    channel_id = 1215953106718818326  # Replace with your channel ID
+    channel = client.get_channel(channel_id)
+
+    if channel:
+        embed = discord.Embed(title="🧀 Daily Challenge 🧀",
+                              description=challenge, color=discord.Color.dark_gold())
+        embed.set_footer(text=f"Date: {current_date}")
+        await channel.send(embed=embed)
+
+    # Update the last challenge date
+    last_challenge_date = current_date
+
+# Command to manually trigger the daily challenge (useful for testing)
+
+
+@client.command()
+async def dailychallenge(ctx):
+    global last_challenge_date
+    current_date = datetime.utcnow().date()
+
+    # Select a random challenge
+    challenge = random.choice(challenges)
+
+    embed = discord.Embed(title="🧀 Daily Challenge 🧀",
+                          description=challenge, color=discord.Color.gold())
+    embed.set_footer(text=f"Date: {current_date}")
+    await ctx.send(embed=embed)
+
+    # Update the last challenge date
+    last_challenge_date = current_date
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 client.run('Enter Your Token Here')
