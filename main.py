@@ -7,6 +7,7 @@ from discord import Member
 from datetime import datetime, timedelta
 from discord.ext.commands import has_permissions, MissingPermissions
 import os
+import asyncio
 
 client = commands.Bot(command_prefix='?', intents=discord.Intents.all())
 
@@ -434,6 +435,7 @@ async def cheesebot(ctx):
         "🧀 Resume a song: `?resume`\n"
         "🧀 Stop a song: `?stop`\n"
         "🧀 Daily Challenge: `?dailychallenge`\n"
+        "🧀 Set Reminder: `?remindme <time> <msg>`\n"
 
 
     ), inline=False)
@@ -504,5 +506,53 @@ async def dailychallenge(ctx):
 
     # Update the last challenge date
     last_challenge_date = current_date
+
+
+
+# To set reminders
+reminders = {}
+@client.command()
+async def remindme(ctx, time: int, *, message: str):
+    reminder_time = datetime.utcnow() + timedelta(minutes=time)
+    reminders[ctx.author.id] = (reminder_time, message)
+
+    embed = discord.Embed(
+        title="Reminder Set",
+        description=f"I will remind you in {time} minutes.",
+        color=discord.Color.green()
+    )
+    await ctx.send(embed=embed)
+
+    await asyncio.sleep(time * 60)  # Convert minutes to seconds
+
+    if ctx.author.id in reminders and reminders[ctx.author.id][0] == reminder_time:
+        embed = discord.Embed(
+            title="Reminder",
+            description=message,
+            color=discord.Color.blue()
+        )
+        await ctx.send(f"{ctx.author.mention}", embed=embed)
+        del reminders[ctx.author.id]
+
+# Task to check reminders periodically
+@tasks.loop(seconds=30)
+async def check_reminders():
+    current_time = datetime.utcnow()
+    to_remove = []
+    for user_id, (reminder_time, message) in reminders.items():
+        if current_time >= reminder_time:
+            user = client.get_user(user_id)
+            if user:
+                embed = discord.Embed(
+                    title="Reminder",
+                    description=message,
+                    color=discord.Color.blue()
+                )
+                await user.send(embed=embed)
+                to_remove.append(user_id)
+    for user_id in to_remove:
+        del reminders[user_id]
+
+
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 client.run('Enter Your Token Here')
