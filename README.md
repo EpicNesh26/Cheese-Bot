@@ -50,7 +50,8 @@ Discord.py library
          `pip install -r requirements.txt`
       3. Set up your Discord bot token in a .env file(can be skipped unless you decide to make it open source): <br>
          `DISCORD_TOKEN=your_discord_token_here`
-      4. Run the bot in the terminal and it will go online on the server:<br>
+      4. Change the channel ID to your designated server channel.
+      5. Run the bot in the terminal and it will go online on the server:<br>
          `python main.py`
          
 ## Contributing
