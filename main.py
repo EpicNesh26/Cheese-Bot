@@ -32,7 +32,7 @@ async def hello(ctx):
 
 @client.event
 async def on_member_join(member):
-    channel = client.get_channel(1215953106718818326)
+    channel = client.get_channel(1242832943257358356)
     if channel:
         # Create the welcome message
         welcome_message = (
