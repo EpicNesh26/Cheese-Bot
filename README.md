@@ -44,27 +44,30 @@ Building Cheese Bot was an excellent learning experience that covered several ke
 Python 3.6 or higher <br>
 Discord.py library
 2. **Installation** 
-      1. Clone the repository:
-
-      2. Install the required packages that are mentioned in the requirements.txt:
-  
-      3. Set up your Discord bot token in a .env file(can be skipped unless you decide to make it open source):
-  
-      4. Run the bot in the terminal and it will go online on the server:
-
+      1. Clone the repository: <br>
+         `git clone https://github.com/EpicNesh26/Cheese-Bot.git`
+      2. Install the required packages that are mentioned in the requirements.txt: <br>
+         `pip install -r requirements.txt`
+      3. Set up your Discord bot token in a .env file(can be skipped unless you decide to make it open source): <br>
+         `DISCORD_TOKEN=your_discord_token_here`
+      4. Run the bot in the terminal and it will go online on the server:<br>
+         `python main.py`
          
 ## Contributing
 1. Fork the repository.
-2. Clone your forked repository:
-   
+2. Clone your forked repository: <br>
+   `git clone https://github.com/EpicNesh26/Cheese-Bot.git` 
 3. Make your changes directly on the main branch.
-4. Commit your changes:
-   
-5. Push your changes to your forked repository:
- 
+4. Commit your changes: <br>
+   `git commit -m "Added New Features"`
+5. Push your changes to your forked repository: <br>
+   `git push origin main`
 6. Create a Pull Request from your repository to the original repository.
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 ## Acknowledgments
 1. Thanks to the Discord.py community for their excellent library and support.
 2. Inspired by all the cheese lovers out there.
+
+## Join Our Discord Server:
+To test the bot and see it in action, join our Discord server: **https://discord.gg/wpncjhPy**
