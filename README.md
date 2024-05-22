@@ -40,7 +40,7 @@ Building Cheese Bot was an excellent learning experience that covered several ke
       The project file named main.py is actually a copy file which doesnt include the bot token and other api keys so as to keep the sensitive info of myself private. 
 
 ## Getting Started
-1. **Prerequisites** 
+1. **Prerequisites** <br>
 Python 3.6 or higher <br>
 Discord.py library
 2. **Installation** 
