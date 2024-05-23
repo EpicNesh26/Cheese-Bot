@@ -71,4 +71,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 2. Inspired by all the cheese lovers out there.
 
 ## Join Our Discord Server:
-To test the bot and see it in action, join our Discord server: **https://discord.gg/wpncjhPy**
+To test the bot and see it in action, join our Discord server: **https://discord.gg/m99KYTZb**
