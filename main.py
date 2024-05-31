@@ -553,6 +553,10 @@ async def check_reminders():
     for user_id in to_remove:
         del reminders[user_id]
 
+@client.command()
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("You dont have permissions to run that command")
 
 # To make this project work you will have to enter your discord token in the brackets below and you can find that discord token at your "discord developer portal"
 client.run('Enter Your Token Here')
